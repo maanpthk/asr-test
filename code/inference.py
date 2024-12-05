@@ -6,7 +6,7 @@ import torch
 import nemo.collections.asr as nemo_asr
 from flask import Flask, request, jsonify
 import logging
-
+import base64
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
