@@ -48,11 +48,26 @@ def input_fn(request_body, request_content_type):
         logger.error(error_msg)
         raise ValueError(error_msg)
 
+# inference.py
 def predict_fn(input_data, model):
     """Make prediction using the input data and loaded model"""
     try:
         logger.info("Starting prediction")
-        transcription = model.transcribe([input_data['audio']])
+        
+        # Decode base64 to audio file
+        audio_data = base64.b64decode(input_data['audio'])
+        
+        # Save to temporary file
+        temp_file = '/tmp/temp_audio.wav'
+        with open(temp_file, 'wb') as f:
+            f.write(audio_data)
+        
+        # Make prediction
+        transcription = model.transcribe([temp_file])
+        
+        # Clean up
+        os.remove(temp_file)
+        
         logger.info(f"Prediction completed: {transcription[0]}")
         return transcription[0]
     except Exception as e:

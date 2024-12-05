@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     git \
     tzdata \
-    curl \   # Added curl for healthcheck
+    curl \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && rm -rf /var/lib/apt/lists/*
 
