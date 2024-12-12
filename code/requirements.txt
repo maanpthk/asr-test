@@ -1,0 +1,4 @@
+Flask
+huggingface-hub==0.14.1
+transformers==4.28.1
+nemo_toolkit[asr]==1.20.0
