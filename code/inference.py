@@ -18,22 +18,38 @@ model = None
 def model_fn(model_dir):
     """Load the model for inference"""
     try:
-        logger.info(f"Loading model from {model_dir}")
-        model_path = os.path.join(model_dir, "ai4b_indicConformer_or.nemo")  # Changed from hi to or for Odia
+        logger.info(f"Loading model from directory: {model_dir}")
+        model_path = os.path.join(model_dir, "ai4b_indicConformer_or.nemo")
+        tokenizer_dir = os.path.join(model_dir, "tokenizer")
+        
+        # Check if files exist
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"Model file not found at: {model_path}")
+        if not os.path.exists(tokenizer_dir):
+            raise FileNotFoundError(f"Tokenizer directory not found at: {tokenizer_dir}")
+            
+        logger.info(f"Model file exists at: {model_path}")
+        logger.info(f"Tokenizer directory exists at: {tokenizer_dir}")
+        
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         logger.info(f"Using device: {device}")
         
-        model = nemo_asr.models.EncDecCTCModelBPE.restore_from(model_path)
+        # Load model with tokenizer configuration
+        model = nemo_asr.models.EncDecCTCModelBPE.restore_from(
+            restore_path=model_path,
+            override_config_path={
+                "tokenizer": {
+                    "dir": tokenizer_dir
+                }
+            }
+        )
         model.to(device)
         model.eval()
         
-        if torch.cuda.is_available():
-            logger.info(f"CUDA Device: {torch.cuda.get_device_name(0)}")
-            logger.info(f"CUDA Version: {torch.version.cuda}")
-            
         return model
     except Exception as e:
         logger.error(f"Error loading model: {str(e)}")
+        logger.error(f"Stack trace: ", exc_info=True)
         raise
 
 def input_fn(request_body, request_content_type):

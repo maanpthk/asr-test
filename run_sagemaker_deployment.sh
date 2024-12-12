@@ -44,7 +44,7 @@ def deploy_model():
     sagemaker_client = session.client('sagemaker')
     
     # Define container
-    container = f"{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/indicasr-hindi:latest"
+    container = f"{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/indicasr-odia:latest"
     
     print("Creating model...")
     try:

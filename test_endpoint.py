@@ -159,7 +159,7 @@ def record_and_test():
         recorder.cleanup()
 
 if __name__ == "__main__":
-    ENDPOINT_NAME = "indicasr-hindi-endpoint"
+    ENDPOINT_NAME = "indicasr-odia-endpoint"
     
     while True:
         print("\nChoose input method:")

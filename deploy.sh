@@ -6,7 +6,7 @@ set -e
 # Configuration
 ACCOUNT_ID="339712730235"
 REGION="ap-south-1"
-REPOSITORY_NAME="indicasr-hindi"
+REPOSITORY_NAME="indicasr-odia"
 IMAGE_TAG="latest"
 
 # Print configuration
